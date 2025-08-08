@@ -34,16 +34,22 @@ struct ContentView: View {
             Spacer()//push up
             List{//Displays list of tasks
                 ForEach (toDos) { toDoItem in
-                    Text(toDoItem.title)
+                    if toDoItem.isImportant {
+                        Text("‼️" + toDoItem.title)
+                    } else {
+                        Text(toDoItem.title)
+                    }
                 }
             }
+            .listStyle(.plain)
         }//end of the VStack
         if showNewTask {
-            NewToDo()
+            NewToDo(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false))
         }
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(for: ToDoItem.self, inMemory: true)
 }
